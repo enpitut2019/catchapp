@@ -1,24 +1,16 @@
-# README
+# エレベーターピッチ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**背景知識が十分でない研究分野の研究動向をキャッチアップするのに苦労してしまうという問題** を解決したい
 
-Things you may want to cover:
+**学生を始めとした研究者向け** の
 
-* Ruby version
+**高速な研究分野のキャッチアップを実現** する
 
-* System dependencies
+**CatchApp** です。
 
-* Configuration
+**自動で論文を抽出し要約する機能** があり、
 
-* Database creation
+**自分で検索/TwitterのTL/論文誌 → WebのPDF/図書館 → Abstractを読む → 必要なら本文 というこれまでのキャッチアップ方法** とは違って、
 
-* Database initialization
+**移動中などにもスマホを使って手軽に最新研究をキャッチアップ** することができます。
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
