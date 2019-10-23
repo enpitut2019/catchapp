@@ -14,3 +14,6 @@
 
 **移動中などにもスマホを使って手軽に最新研究をキャッチアップ** することができます。
 
+# 開発周りのこと
+
+- フロントエンドの開発は[catchapp-front](https://github.com/enpitut2019/catchapp-front)レポジトリで
