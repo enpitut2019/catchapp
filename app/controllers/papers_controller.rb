@@ -9,9 +9,9 @@ class PapersController < ApplicationController
     def create
         @paper = Paper.new(paper_params)
         if @paper.save
-            render json: @paper, status: :created, location: @user
+            paginate json: @paper, status: :created, location: @user
         else
-            render json: @paper.errors, status: :unprocessable_entity
+            paginate json: @paper.errors, status: :unprocessable_entity
         end
     end
 
