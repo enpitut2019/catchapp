@@ -11,7 +11,7 @@
 
      resource '*',
        headers: :any,
-       methods: [:get, :post, :put, :patch, :delete, :options, :head, :all, :create]
+       methods: [:get, :post, :put, :patch, :delete, :options, :head]
        expose: ['Per-Page', 'Total', 'Link']
    end
  end
