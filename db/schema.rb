@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_040812) do
+ActiveRecord::Schema.define(version: 2019_10_30_042112) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
@@ -24,13 +24,33 @@ ActiveRecord::Schema.define(version: 2019_10_23_040812) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "paper_authors", force: :cascade do |t|
+    t.integer "paper_id"
+    t.integer "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_paper_authors_on_author_id"
+    t.index ["paper_id"], name: "index_paper_authors_on_paper_id"
+  end
+
+  create_table "paper_keywords", force: :cascade do |t|
+    t.integer "paper_id"
+    t.integer "keyword_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["keyword_id"], name: "index_paper_keywords_on_keyword_id"
+    t.index ["paper_id"], name: "index_paper_keywords_on_paper_id"
+  end
+
   create_table "papers", force: :cascade do |t|
     t.text "abstract"
     t.text "title"
-    t.date "publishedAt"
     t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "abstract_ja"
+    t.text "pdf_url"
+    t.date "published_at"
   end
 
 end

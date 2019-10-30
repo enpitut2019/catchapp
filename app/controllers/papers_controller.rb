@@ -1,5 +1,4 @@
 class PapersController < ApplicationController
-    
     def index
         @papers = Paper.all
         render :json => papers
@@ -17,10 +16,8 @@ class PapersController < ApplicationController
 
     def all
         @papers = Paper.all
-        @keywords = Keyword.all
-        @authors = Author.all
 
-        render :json => {:papers => @papers,:keywords => @keywords, :authors=> @authors}
+        render :json => {:papers => @papers.to_json(:include => [:authors, :keywords])}
     end
 
     private
