@@ -8,18 +8,19 @@ class PapersController < ApplicationController
     def create
         @paper = Paper.new(paper_params)
         @authors = params[:authors].split(",")
-        @authors_num = @authors.length
+        @authors_length = @authors.length
 
         if @paper.save
-            for i in 0 .. @authors_num-1 do
+            for i in 0..@authors_length-1
                 @author = @paper.authors.new(name:@authors[i])
                 if @author.save
                 else
-                    render json: @paper.errors, status: :unprocessable_entity
+                    render json: @author.errors, status: :unprocessable_entity
                     return
                 end
             end
-            render :json => @paper.to_json(:include => [:authors, :keywords]),:status: :created, location: @user
+
+            render :json => @paper.to_json(:include => [:authors, :keywords])
         else
             render json: @paper.errors, status: :unprocessable_entity
         end
@@ -28,13 +29,13 @@ class PapersController < ApplicationController
     def all
         @papers = Paper.all
 
-        render :json => {:papers => @papers.to_json(:include => [:authors, :keywords])}
+        render :json => @papers.to_json(:include => [:authors, :keywords])
     end
 
     private
 
     def paper_params
-        params.permit(:abstract,:title,:publishedAt,:url)
+        params.permit(:abstract,:abstract_ja,:title,:published_at,:url,:pdf_url)
     end
 
 end
