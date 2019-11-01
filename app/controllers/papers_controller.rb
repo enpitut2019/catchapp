@@ -7,8 +7,19 @@ class PapersController < ApplicationController
 
     def create
         @paper = Paper.new(paper_params)
+        @authors = params[:authors].split(",")
+        @authors_num = @authors.length
+
         if @paper.save
-            render json: @paper, status: :created, location: @user
+            for i in 0 .. @authors_num-1 do
+                @author = @paper.authors.new(name:@authors[i])
+                if @author.save
+                else
+                    render json: @paper.errors, status: :unprocessable_entity
+                    return
+                end
+            end
+            render :json => @paper.to_json(:include => [:authors, :keywords]),:status: :created, location: @user
         else
             render json: @paper.errors, status: :unprocessable_entity
         end
@@ -25,4 +36,5 @@ class PapersController < ApplicationController
     def paper_params
         params.permit(:abstract,:title,:publishedAt,:url)
     end
+
 end
