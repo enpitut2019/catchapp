@@ -45,6 +45,7 @@ class PapersController < ApplicationController
     def all
         @papers = Paper.all
         render :json => @papers.to_json(:include => [:authors, :keywords, :figures])
+
     end
 
     private
