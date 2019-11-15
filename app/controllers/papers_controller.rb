@@ -19,16 +19,32 @@ class PapersController < ApplicationController
                     return
                 end
             end
-            render :json => @paper.to_json(:include => [:authors, :keywords]),:status: :created, location: @user
+            render :json => @paper.to_json(:include => [:authors, :keywords]), status: :created, location: @user
         else
             render json: @paper.errors, status: :unprocessable_entity
         end
     end
 
+    def upload
+        raise ArgumentError, 'invalid params' if params[:figure].blank? 
+
+        paper=Paper.find_by(id: params[:paper_id])
+    
+        figure = paper.figures.create(figure: params[:figure])
+    
+        figure.explanation = params[:explanation]
+    
+        figure.save!
+    
+        render json: {
+            explanation: figure.explanation,
+            figure: figure.figure.url
+        }
+      end
+
     def all
         @papers = Paper.all
-
-        render :json => {:papers => @papers.to_json(:include => [:authors, :keywords])}
+        render :json => @papers.to_json(:include => [:authors, :keywords, :figures])
     end
 
     private

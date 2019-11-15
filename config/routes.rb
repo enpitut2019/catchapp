@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   get "keywords/index"
   get "authors/index"
   post "papers/create"
+  post "papers/upload"
 end

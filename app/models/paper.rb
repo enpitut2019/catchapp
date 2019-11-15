@@ -1,4 +1,5 @@
 class Paper < ApplicationRecord
+	has_many :figures
 	has_many :paper_authors
 	has_many :paper_keywords
 	has_many :authors, through: :paper_authors

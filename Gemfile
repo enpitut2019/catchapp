@@ -61,3 +61,7 @@ end
 
 gem 'api-pagination'
 
+gem 'carrierwave' , github: 'carrierwaveuploader/carrierwave'
+
+
+
