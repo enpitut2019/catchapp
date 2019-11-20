@@ -51,7 +51,8 @@ class PapersController < ApplicationController
     private
 
     def paper_params
-        params.permit(:abstract,:title,:publishedAt,:url)
+        params.permit(:abstract,:abstract_ja,:title,:title_ja,:published_at,
+        :cite_count,:cuted_count,:journal,:pdf_urf,:url)
     end
 
 end
