@@ -62,7 +62,8 @@ end
 gem 'api-pagination'
 
 gem 'carrierwave' , github: 'carrierwaveuploader/carrierwave'
-gem 'fog'
+gem 'fog-aws'
+gem 'kaminari'
 
 
 
