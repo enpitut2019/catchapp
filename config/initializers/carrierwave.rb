@@ -4,14 +4,20 @@ CarrierWave.configure do |config|
     # end
   
 
-    config.fog_credentials = {
-      provider: 'AWS',
-      aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      region: ENV['AWS_REGION'],
-      use_iam_profile: true
-    }
-  
-    config.fog_directory  = ENV['AWS_S3_BUCKET']
-    config.cache_storage = :fog
+    if Rails.env.production?
+      # 本番環境であればAWS周りの設定をする
+      config.fog_credentials = {
+        provider: 'AWS',
+        aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+        region: ENV['AWS_REGION'],
+      }
+    
+      config.fog_directory  = ENV['AWS_S3_BUCKET']
+      config.cache_storage = :fog
+    else
+      # ローカル・テスト環境であればAWSの設定はスキップ
+      # キャッシュ先ｇはローカルに設定する
+      config.cache_storage = :file
+    end
   end

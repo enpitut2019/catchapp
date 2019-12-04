@@ -4,14 +4,12 @@ class PaperImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  # if Rails.env.development?
-  #   storage :file
-  # elsif Rails.env.test?
-  #   storage :file
-  # else
-  #   storage :fog
-  # end
-  storage :fog
+  # 本番環境であればS3を、そうでなければローカルを保存先にする
+  if Rails.env.production?
+    storage :fog
+  else
+    storage :file
+  end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
