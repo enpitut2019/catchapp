@@ -12,8 +12,8 @@ class PapersController < ApplicationController
 
         if @paper.save
             for i in 0 .. @authors_num-1 do
-                @author = @paper.authors.new(name:@authors[i])
-                if @author.save
+                @paper.authors.new(name:@authors[i])
+                if @paper.save 
                 else
                     render json: @paper.errors, status: :unprocessable_entity
                     return
