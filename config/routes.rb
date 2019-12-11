@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   get "authors/index"
   post "papers/create"
   post "papers/upload"
+  post "search/get_xml"
+  
 end
