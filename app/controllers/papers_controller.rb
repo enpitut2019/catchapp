@@ -7,12 +7,39 @@ class PapersController < ApplicationController
 
     def create
         @paper = Paper.new(paper_params)
-        @authors = params[:authors].split(",")
-        @authors_num = @authors.length
+        @authors_num = 0
+        @keywords_num = 0
+
+        if(!params[:authors].nil?)
+            @authors = params[:authors].split(",")
+            @authors_num = @authors.length
+        end
+        if(!params[:keywords].nil?)
+            @keywords = params[:keywords].split(",")
+            @keywords_num = @keywords.length
+        end
 
         if @paper.save
             for i in 0 .. @authors_num-1 do
-                @paper.authors.new(name:@authors[i])
+                @author = Author.find_by(name: @authors[i])
+                if(@author.nil?)
+                    @paper.authors.new(name:@authors[i])
+                else
+                    @paper.paper_authors.find_or_create_by(author_id:@author.id)
+                end
+                if @paper.save 
+                else
+                    render json: @paper.errors, status: :unprocessable_entity
+                    return
+                end
+            end
+            for i in 0 .. @keywords_num-1 do
+                @keyword = Keyword.find_by(name: @keywords[i])
+                if @keyword.nil?
+                    @paper.keywords.new(name:@keywords[i])
+                else
+                    @paper.paper_keywords.find_or_create_by(keyword_id:@keyword.id)
+                end
                 if @paper.save 
                 else
                     render json: @paper.errors, status: :unprocessable_entity
