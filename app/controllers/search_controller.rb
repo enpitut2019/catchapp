@@ -1,23 +1,35 @@
 require 'rexml/document'
+require 'net/http'
+require 'uri'
 # require "google/cloud/translate"
 
 class SearchController < ApplicationController
     def get_xml
-        require 'net/http'
-        require 'uri'
+        # 検索ワードのエスケープ処理
         search_word = URI.encode_www_form_component(params['search_word'])
         
+        # arXiv APIのエンドポイントURLを構築
         url = URI.parse("http://export.arxiv.org/api/query?search_query=abs:#{search_word}&start=0&max_results=30")
-        res = Net::HTTP.get_response(url)
-        body = res.body
+
+        # arXiv APIを叩いてデータを取得する
+        res = Net::HTTP.get_response(url) ## 生のレスポンス
+        body = res.body ## レスポンスボディはXMLとして得られる
+
+        # 得られたXMLの解析
         papers = parseXML(body)
 
+        # json形式でレスポンスを送る
         render(json: papers)
     end
 
     private
+
+    # arXiv APIから取得したXMLを解析してPaperモデルの配列を返す関数
     def parseXML(xmlString)
+        # 返されるPaperの配列の準備
         papers = Array.new
+
+        # XMLの解析
         doc = REXML::Document.new(xmlString)
         doc.elements.each('//entry') do |e|
             title = e.elements['title'] ? e.elements['title'].text : ''
@@ -32,16 +44,23 @@ class SearchController < ApplicationController
                 author_name = authors_elements.elements['name'] ? authors_elements.elements['name'].text : ''
                 author_names.push(author_name)
             end
+
+            # Paperモデルへの保存
+            ## PaperがDB上に既に存在するかどうか確認
             paper = Paper.find_by(:aixiv_id => arxiv_id)
             if paper.nil? then
+              ## PaperがDBに存在しなければ保存してpaper変数を更新
               paper = Paper.create!(title: title, url: url, pdf_url: url_pdf, journal: journal, abstract: abstract, aixiv_id: arxiv_id, published_at: DateTime.parse(published_at))
+              ## Authorsの保存
               author_names.map do |author_name|
                 paper.authors.create!(name: author_name)
               end
             end
+            # 生成or取得したPaperを配列に追加
             papers.push(paper)
         end
 
+        # Paperの配列を返す
         return papers
     end
 end
