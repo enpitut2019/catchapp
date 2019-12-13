@@ -74,12 +74,7 @@ class PapersController < ApplicationController
         render :json => @papers.to_json(:include => [:authors, :keywords, :figures])
 
     end
-
-    def search
-        @papers = Paper.where('abstract LIKE ? OR abstract_ja LIKE ?', 
-        "%#{params[:search_word]}%", "%#{params[:search_word]}%")
-    end
-
+    
     private
 
     def paper_params
