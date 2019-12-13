@@ -1,5 +1,5 @@
 class Paper < ApplicationRecord
-	validates_uniqueness_of :aixiv_id
+	validates_uniqueness_of :arxiv_id
 	has_many :figures
 	has_many :paper_authors
 	has_many :paper_keywords

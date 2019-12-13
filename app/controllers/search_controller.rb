@@ -63,10 +63,10 @@ class SearchController < ApplicationController
 
             # Paperモデルへの保存
             ## PaperがDB上に既に存在するかどうか確認
-            paper = Paper.find_by(:aixiv_id => arxiv_id)
+            paper = Paper.find_by(:arxiv_id => arxiv_id)
             if paper.nil? then
               ## PaperがDBに存在しなければ保存してpaper変数を更新
-              paper = Paper.create!(title: title, title_ja: title_ja, url: url, pdf_url: url_pdf, journal: journal, abstract: abstract, abstract_ja: abstract_ja, aixiv_id: arxiv_id, published_at: DateTime.parse(published_at))
+              paper = Paper.create!(title: title, title_ja: title_ja, url: url, pdf_url: url_pdf, journal: journal, abstract: abstract, abstract_ja: abstract_ja, arxiv_id: arxiv_id, published_at: DateTime.parse(published_at))
               ## Authorsの保存
               author_names.map do |author_name|
                 paper.authors.create!(name: author_name)
