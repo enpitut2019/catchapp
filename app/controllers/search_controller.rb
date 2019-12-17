@@ -61,6 +61,9 @@ class SearchController < ApplicationController
                 author_names.push(author_name)
             end
 
+            abstract.gsub!("\n", " ")
+            title.gsub!("\n", " ")
+
             # Paperモデルへの保存
             ## PaperがDB上に既に存在するかどうか確認
             paper = Paper.find_by(:arxiv_id => arxiv_id)
