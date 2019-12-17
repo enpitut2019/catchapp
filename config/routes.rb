@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   post "papers/create"
   post "papers/upload"
   post "search/get_xml"
-  
+  get "translate", to: "translate#get"
+  post "translate", to: "translate#set"
 end
