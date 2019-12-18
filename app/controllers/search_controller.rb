@@ -21,23 +21,6 @@ class SearchController < ApplicationController
         render(json: papers)
     end
 
-    private
-    # Google Translateで翻訳する関数
-    def translate(content)
-      url = URI.parse('https://www.googleapis.com/language/translate/v2')
-      params = {
-        q: content,
-        target: "ja", # 翻訳したい言語
-        source: "en", # 翻訳する言語の種類
-        key: ENV["GOOGLE_CLOUD_API_KEY"]
-      }
-      url.query = URI.encode_www_form(params)
-      res = Net::HTTP.get_response(url)
-      json = res.body
-
-      return JSON.parse(json)["data"]["translations"].first["translatedText"]
-    end
-
     # arXiv APIから取得したXMLを解析してPaperモデルの配列を返す関数
     def parseXML(xmlString)
         # 返されるPaperの配列の準備
@@ -47,10 +30,8 @@ class SearchController < ApplicationController
         doc = REXML::Document.new(xmlString)
         doc.elements.each('//entry') do |e|
             title = e.elements['title'] ? e.elements['title'].text : ''
-            title_ja = translate(title)
             arxiv_id = e.elements['id'] ? e.elements['id'].text : ''
             abstract = e.elements['summary'] ? e.elements['summary'].text : ''
-            abstract_ja = translate(abstract)
             url = e.elements['link[@type="text/html"]'] ? e.elements['link[@type="text/html"]'].attributes['href'] : ''
             url_pdf = e.elements['link[@type="application/pdf"]'] ? e.elements['link[@type="application/pdf"]'].attributes['href'] : ''
             published_at = e.elements['published'] ? e.elements['published'].text : ''
@@ -61,12 +42,15 @@ class SearchController < ApplicationController
                 author_names.push(author_name)
             end
 
+            abstract.gsub!("\n", " ")
+            title.gsub!("\n", " ")
+
             # Paperモデルへの保存
             ## PaperがDB上に既に存在するかどうか確認
             paper = Paper.find_by(:arxiv_id => arxiv_id)
             if paper.nil? then
               ## PaperがDBに存在しなければ保存してpaper変数を更新
-              paper = Paper.create!(title: title, title_ja: title_ja, url: url, pdf_url: url_pdf, journal: journal, abstract: abstract, abstract_ja: abstract_ja, arxiv_id: arxiv_id, published_at: DateTime.parse(published_at))
+              paper = Paper.create!(title: title, url: url, pdf_url: url_pdf, journal: journal, abstract: abstract, arxiv_id: arxiv_id, published_at: DateTime.parse(published_at))
               ## Authorsの保存
               author_names.map do |author_name|
                 paper.authors.create!(name: author_name)
