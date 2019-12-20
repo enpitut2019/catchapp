@@ -7,4 +7,5 @@ class Paper < ApplicationRecord
 	has_many :keywords, through: :paper_keywords
 	accepts_nested_attributes_for :paper_authors
 	accepts_nested_attributes_for :paper_keywords
+	enum analized: { ToDo: 0, Doing: 1, Done:2}
 end

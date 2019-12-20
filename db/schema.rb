@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2019_12_18_045149) do
     t.integer "cite_count"
     t.integer "cited_count"
     t.text "arxiv_id"
-    t.boolean "analized", default: false
+    t.integer "analized", default: 0
   end
 
 end
