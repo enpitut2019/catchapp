@@ -1,3 +1,6 @@
+require 'net/http'
+require 'uri'
+
 class PapersController < ApplicationController
     def index
         @papers = Paper.all
@@ -73,6 +76,24 @@ class PapersController < ApplicationController
         @papers = Paper.all
         render :json => @papers.to_json(:include => [:authors, :keywords, :figures])
 
+    end
+
+    def get_figure
+        @paper = Paper.find_by(arxiv_id: params[:arxiv_id])
+
+        if(@paper.analized)
+            render :json => @paper.to_json(:include => [:authors, :keywords, :figures])
+        else
+            #pythonへのリクエスト
+            url = URI.parse("https://siscorn-catchapp-analysis.herokuapp.com/?paper_id=#{@paper.id}&paper_pdf_url=#{@paper.pdf_url}")
+            #byebug
+            res = Net::HTTP.get_response(url) 
+            #byebug
+            if (res.code == "200") #保存された時
+                @paper.update(analized: true)
+                render :json => @paper.to_json(:include => [:authors, :keywords, :figures])
+            end
+        end
     end
     
     private

@@ -144,9 +144,9 @@ GEM
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
-    fog-core (2.1.2)
+    fog-core (2.2.0)
       builder
-      excon (~> 0.58)
+      excon (~> 0.71)
       formatador (~> 0.2)
       mime-types
     fog-digitalocean (0.4.0)
@@ -182,7 +182,7 @@ GEM
       fog-core (~> 2.1)
       fog-json (>= 1.0)
       ipaddress (>= 0.8)
-    fog-ovirt (1.2.3)
+    fog-ovirt (1.2.4)
       fog-core
       fog-json
       fog-xml
@@ -395,7 +395,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.1)
-    thor (0.20.3)
+    thor (1.0.1)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)

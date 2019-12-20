@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   post "search/get_xml"
   get "translate", to: "translate#get"
   post "translate", to: "translate#set"
+  post "papers/get_figure"
 end
