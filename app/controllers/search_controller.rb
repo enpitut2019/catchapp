@@ -18,7 +18,7 @@ class SearchController < ApplicationController
         papers = parseXML(body)
 
         # json形式でレスポンスを送る
-        render(json: papers)
+        render(json: papers.to_json(:include => [:authors, :keywords, :figures]))
     end
 
     # arXiv APIから取得したXMLを解析してPaperモデルの配列を返す関数
