@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_13_060403) do
+ActiveRecord::Schema.define(version: 2019_12_18_045149) do
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2019_12_13_060403) do
     t.integer "cite_count"
     t.integer "cited_count"
     t.text "arxiv_id"
+    t.integer "analized", default: 0
   end
 
 end
