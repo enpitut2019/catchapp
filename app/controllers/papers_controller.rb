@@ -86,7 +86,7 @@ class PapersController < ApplicationController
         elsif(@paper.ToDo?)
             @paper.update(analized: :Doing)
             #pythonへのリクエスト
-            url = URI.parse("https://siscorn-catchapp-analysis.herokuapp.com/?paper_id=#{@paper.id}&paper_pdf_url=#{@paper.pdf_url}")
+            url = URI.parse("https://analysis.catchapp.sudame.net/?paper_id=#{@paper.id}&paper_pdf_url=#{@paper.pdf_url}")
             res = Net::HTTP.get_response(url) 
             if (res.code == "200") #保存された時
                 @paper.update(analized: :Done)
