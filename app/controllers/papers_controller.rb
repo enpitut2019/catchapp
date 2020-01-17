@@ -88,10 +88,8 @@ class PapersController < ApplicationController
             #pythonへのリクエスト
             url = URI.parse("https://analysis.catchapp.sudame.net/?paper_id=#{@paper.id}&paper_pdf_url=#{@paper.pdf_url}")
             res = Net::HTTP.get_response(url) 
-            if (res.code == "200") #保存された時
-                @paper.update(analized: :Done)
-                render :json => @paper.to_json(:include => [:authors, :keywords, :figures])
-            end
+            @paper.update(analized: :Done)
+            render :json => @paper.to_json(:include => [:authors, :keywords, :figures])
         end
     end
     
