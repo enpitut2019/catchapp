@@ -7,6 +7,15 @@ class PapersController < ApplicationController
         render :json => papers
     end
 
+    def show
+        def show_params
+            params.permit(:id)
+        end
+        @paper = Paper.find(show_params[:id])
+        
+        render :json => @paper.to_json(:include => [:authors, :keywords, :figures])
+    end
+
 
     def create
         @paper = Paper.new(paper_params)
