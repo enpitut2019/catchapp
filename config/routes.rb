@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  get "papers/index"
-  get "papers/all"
+  get "paper/:id", to: "papers#show"
   get "keywords/index"
   get "authors/index"
   post "papers/create"
