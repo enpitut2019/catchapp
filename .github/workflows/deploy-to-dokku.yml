@@ -24,6 +24,7 @@ jobs:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@master
         env:
+          SLACK_USERNAME: デプロイを知らせるおえい
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: Railsアプリがデプロイされました！
           SLACK_ICON: https://pbs.twimg.com/profile_images/1162618439187357696/XmfsHKeA_400x400.jpg
