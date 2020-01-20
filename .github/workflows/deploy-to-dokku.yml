@@ -21,3 +21,9 @@ jobs:
           dokku-host: ${{ secrets.DOKKU_HOST }}
           app-name: ${{ secrets.DOKKU_APP_NAME }}
           dokku-user: ${{ secrets.DOKKU_USER }}
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: Railsアプリがデプロイされました！
+          SLACK_ICON: https://pbs.twimg.com/profile_images/1162618439187357696/XmfsHKeA_400x400.jpg
