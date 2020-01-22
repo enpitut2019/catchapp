@@ -5,11 +5,12 @@ class FiguresController < ApplicationController
     def translate
         figure = Figure.find(translate_params[:id])
         text = figure.caption
-        uri_str = "https://script.google.com/macros/s/AKfycbxCeACoPPfC8stClMomoRepp36ytKFT7lkQ8CkFy5bMwd0jiDQ/exec?text=#{text}"
-        response = fetch(uri_str)
+        unless text.nil? then
+            uri_str = "https://script.google.com/macros/s/AKfycbxCeACoPPfC8stClMomoRepp36ytKFT7lkQ8CkFy5bMwd0jiDQ/exec?text=#{text}"
+            response = fetch(uri_str)
 
-        figure.update!(caption_ja: JSON.parse(response.body)["text"])
-
+            figure.update!(caption_ja: JSON.parse(response.body)["text"])
+        else
         render :json => figure
     end
 
