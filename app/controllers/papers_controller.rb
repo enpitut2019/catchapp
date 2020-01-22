@@ -71,12 +71,12 @@ class PapersController < ApplicationController
     
         figure = paper.figures.create(figure: params[:figure])
     
-        figure.explanation = params[:explanation]
+        figure.caption = params[:explanation]
     
         figure.save!
     
         render json: {
-            explanation: figure.explanation,
+            caption: figure.caption,
             figure: figure.figure.url
         }
       end

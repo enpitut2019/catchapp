@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   get "translate", to: "translate#get"
   post "translate", to: "translate#set"
   post "papers/get_figure"
+  post "figure/:id/translate", to: "figures#translate"
 end
