@@ -10,7 +10,7 @@ class FiguresController < ApplicationController
             response = fetch(uri_str)
 
             figure.update!(caption_ja: JSON.parse(response.body)["text"])
-        else
+        end
         render :json => figure
     end
 
