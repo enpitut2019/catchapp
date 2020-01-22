@@ -4,7 +4,7 @@ require 'uri'
 class FiguresController < ApplicationController
     def translate
         figure = Figure.find(translate_params[:id])
-        text = figure.caption
+        text = URI.encode_www_form_component(figure.caption)
         unless text.nil? then
             uri_str = "https://script.google.com/macros/s/AKfycbxCeACoPPfC8stClMomoRepp36ytKFT7lkQ8CkFy5bMwd0jiDQ/exec?text=#{text}"
             response = fetch(uri_str)
