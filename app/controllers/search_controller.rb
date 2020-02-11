@@ -10,7 +10,7 @@ class SearchController < ApplicationController
         page = params[:page].to_i || 0
     
         # arXiv APIのエンドポイントURLを構築
-        url = URI.parse("http://export.arxiv.org/api/query?search_query=\"#{search_word}\"OR\"#{hyphen_removed_search_word}\"&start=#{page*30}&max_results=30&sortBy=lastUpdatedDate&sortOrder=descending")
+        url = URI.parse("http://export.arxiv.org/api/query?search_query=\"#{search_word}\"OR\"#{hyphen_removed_search_word}\"&start=#{page*30}&max_results=30&sortBy=submittedDate&sortOrder=descending")
 
         # arXiv APIを叩いてデータを取得する
         res = Net::HTTP.get_response(url) ## 生のレスポンス
